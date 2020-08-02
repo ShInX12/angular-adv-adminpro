@@ -8,6 +8,8 @@ import {environment} from '../../environments/environment';
 
 import {RegisterForm} from '../interfaces/register-form.interface';
 import {LoginForm} from '../interfaces/login-form.interface';
+import {CargarUsuario} from '../interfaces/cargar-usuarios.interface';
+
 import {Usuario} from '../models/usuario.model';
 
 const base_url = environment.base_url;
@@ -34,6 +36,14 @@ export class UsuarioService {
 
   get uid(): string {
     return this.usuario.uid || '';
+  }
+
+  get headers() {
+    return {
+      headers: {
+        'x-token': this.token
+      }
+    };
   }
 
   googleInit() {
@@ -89,13 +99,9 @@ export class UsuarioService {
 
     data = {
       ...data,
-      role:  this.usuario.role
-    }
-    return this.http.put(`${base_url}/usuarios/${this.uid}`, data, {
-      headers: {
-        'x-token': this.token
-      }
-    });
+      role: this.usuario.role
+    };
+    return this.http.put(`${base_url}/usuarios/${this.uid}`, data, this.headers);
   }
 
   login(formData: LoginForm): Observable<any> {
@@ -112,5 +118,33 @@ export class UsuarioService {
         localStorage.setItem('token', response.token);
       })
     );
+  }
+
+  cargarUsuarios(desde: number = 0): Observable<any> {
+    const url = `${base_url}/usuarios?desde=${desde}`;
+    return this.http.get<CargarUsuario>(url, this.headers)
+      .pipe(
+        map(response => {
+          const usuarios = response.usuarios
+            // Creamos un arreglo de usuarios para poder usar sus instancias mas adelante
+            .map(user => new Usuario(
+              user.nombre, user.email, '', user.img, user.google, user.role, user.uid));
+          console.log(response);
+          return {
+            totalRegistros: response.totalRegistros,
+            usuarios
+
+          };
+        })
+      );
+  }
+
+  eliminarUsuario(usuario: Usuario) {
+    const url = `${base_url}/usuarios/${usuario.uid}`;
+    return this.http.delete(url, this.headers);
+  }
+
+  guardarUsuario(usuario: Usuario) {
+    return this.http.put(`${base_url}/usuarios/${usuario.uid}`, usuario, this.headers);
   }
 }
