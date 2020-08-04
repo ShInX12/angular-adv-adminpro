@@ -129,11 +129,9 @@ export class UsuarioService {
             // Creamos un arreglo de usuarios para poder usar sus instancias mas adelante
             .map(user => new Usuario(
               user.nombre, user.email, '', user.img, user.google, user.role, user.uid));
-          console.log(response);
           return {
             totalRegistros: response.totalRegistros,
             usuarios
-
           };
         })
       );
