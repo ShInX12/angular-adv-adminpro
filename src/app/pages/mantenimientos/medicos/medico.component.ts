@@ -86,8 +86,8 @@ export class MedicoComponent implements OnInit {
         _id: this.medicoSeleccionado._id
       };
       this.medicoService.actualizarMedico(data)
-        .subscribe(response => {
-          console.log(response);
+        .subscribe(() => {
+          // console.log(response);
           Swal.fire('Médico actualizado', `${nombre} actualizado correctamente`, 'success');
         });
     } else {

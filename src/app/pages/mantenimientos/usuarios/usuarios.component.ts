@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 
 import {UsuarioService} from '../../../services/usuario.service';
 import {BusquedasService} from '../../../services/busquedas.service';
-import {ModalImagenService} from '../../../service/modal-imagen.service';
+import {ModalImagenService} from '../../../services/modal-imagen.service';
 
 import {Usuario} from '../../../models/usuario.model';
 import {delay} from 'rxjs/operators';

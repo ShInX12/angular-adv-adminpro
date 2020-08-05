@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {CargarUsuario} from '../interfaces/cargar-usuarios.interface';
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
 import {Usuario} from '../models/usuario.model';
@@ -41,8 +40,13 @@ export class BusquedasService {
     return resultados;
   }
 
-  transformarMedicos(resultados: any):Medico[] {
+  transformarMedicos(resultados: any): Medico[] {
     return resultados;
+  }
+
+  busquedaGlobal(termino: string) {
+    const url = `${base_url}/todo/${termino}`;
+    return this.http.get(url, this.headers);
   }
 
   buscar(tipo: 'usuarios' | 'medicos' | 'hospitales', termino: string): Observable<any> {
@@ -65,7 +69,6 @@ export class BusquedasService {
         })
       );
   }
-
 
 
 }

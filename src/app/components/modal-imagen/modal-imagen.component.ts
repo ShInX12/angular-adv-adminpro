@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ModalImagenService} from '../../service/modal-imagen.service';
+import {ModalImagenService} from '../../services/modal-imagen.service';
 import {FormGroup} from '@angular/forms';
 import {Usuario} from '../../models/usuario.model';
 import Swal from "sweetalert2";

@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Medico} from '../../../models/medico.model';
 
 import {MedicoService} from '../../../services/medico.service';
-import {ModalImagenService} from '../../../service/modal-imagen.service';
+import {ModalImagenService} from '../../../services/modal-imagen.service';
 import {BusquedasService} from '../../../services/busquedas.service';
 import {Subscription} from 'rxjs';
 import {delay} from 'rxjs/operators';

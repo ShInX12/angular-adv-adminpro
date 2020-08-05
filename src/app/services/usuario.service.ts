@@ -34,6 +34,10 @@ export class UsuarioService {
     return localStorage.getItem('token') || '';
   }
 
+  get role(): 'ADMIN_ROLE' | 'USER_ROLE' {
+    return this.usuario.role;
+  }
+
   get uid(): string {
     return this.usuario.uid || '';
   }
@@ -59,8 +63,14 @@ export class UsuarioService {
     });
   }
 
+  guardarLocalStorage(token: string, menu: any) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('menu', JSON.stringify(menu));
+  }
+
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('menu');
 
     this.auth2.signOut().then(() => {
       this.ngZone.run(() => {
@@ -78,7 +88,7 @@ export class UsuarioService {
       map((response: any) => {
         const {nombre, email, img = '', google, role, uid} = response.usuario;
         this.usuario = new Usuario(nombre, email, '', img, google, role, uid);
-        localStorage.setItem('token', response.token);
+        this.guardarLocalStorage(response.token, response.menu);
         return true;
       }),
       // El of me permite crear un observable en base al valor que pongamos
@@ -90,7 +100,7 @@ export class UsuarioService {
     return this.http.post(`${base_url}/usuarios`, formData)
       .pipe(
         tap(response => {
-          localStorage.setItem('token', response.token);
+          this.guardarLocalStorage(response.token, response.menu);
         })
       );
   }
@@ -107,7 +117,7 @@ export class UsuarioService {
   login(formData: LoginForm): Observable<any> {
     return this.http.post(`${base_url}/login`, formData).pipe(
       tap(response => {
-        localStorage.setItem('token', response.token);
+        this.guardarLocalStorage(response.token, response.menu);
       })
     );
   }
@@ -115,7 +125,7 @@ export class UsuarioService {
   loginGoogle(token): Observable<any> {
     return this.http.post(`${base_url}/login/google`, {token}).pipe(
       tap(response => {
-        localStorage.setItem('token', response.token);
+        this.guardarLocalStorage(response.token, response.menu);
       })
     );
   }

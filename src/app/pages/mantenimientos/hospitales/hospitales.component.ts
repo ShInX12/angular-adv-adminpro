@@ -4,7 +4,7 @@ import {delay} from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import {Hospital} from '../../../models/hospital.model';
 import {HospitalService} from '../../../services/hospital.service';
-import {ModalImagenService} from '../../../service/modal-imagen.service';
+import {ModalImagenService} from '../../../services/modal-imagen.service';
 import {BusquedasService} from '../../../services/busquedas.service';
 
 @Component({
